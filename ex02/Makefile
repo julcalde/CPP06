@@ -1,16 +1,16 @@
-NAME =		scalarconverter
+NAME =		identifier
 
 CXX =		c++
 
 CXXFLAGS =	-Wall -Wextra -Werror -std=c++98
 
 SRCS =		main.cpp \
-			ScalarConversion.cpp
+			Base.cpp
 			
 
 OBJS =		$(SRCS:.cpp=.o)
 
-HEADERS =	ScalarConversion.hpp
+HEADERS =	Base.hpp
 
 # ANSI color codes
 YELLOW = \033[1;33m
