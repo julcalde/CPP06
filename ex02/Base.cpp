@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:45:42 by julcalde          #+#    #+#             */
-/*   Updated: 2025/09/27 17:04:03 by julcalde         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:18:51 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 
 Base *generate(void)
 {
+	// Seed the random number generator
 	std::srand(static_cast<unsigned int>(std::time(NULL)));
+	// Generate a random number between 0 and 2 by modulus operation by 3
 	int choice = std::rand() % 3;
 	switch (choice)
 	{
