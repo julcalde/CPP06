@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 14:50:57 by julcalde          #+#    #+#             */
-/*   Updated: 2025/09/27 14:58:54 by julcalde         ###   ########.fr       */
+/*   Updated: 2025/09/27 15:05:36 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 class ScalarConversion
 {
+	// Orthodox Canonical Form, but private to prevent instantiation
 	private:
 		ScalarConversion();
 		~ScalarConversion();
