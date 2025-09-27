@@ -1,16 +1,16 @@
-NAME =		scalarconverter
+NAME =		serializer
 
 CXX =		c++
 
 CXXFLAGS =	-Wall -Wextra -Werror -std=c++98
 
 SRCS =		main.cpp \
-			ScalarConversion.cpp
+			Serializer.cpp
 			
 
 OBJS =		$(SRCS:.cpp=.o)
 
-HEADERS =	ScalarConversion.hpp
+HEADERS =	Serializer.hpp
 
 # ANSI color codes
 YELLOW = \033[1;33m
