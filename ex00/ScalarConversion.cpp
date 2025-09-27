@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:00:33 by julcalde          #+#    #+#             */
-/*   Updated: 2025/09/27 15:36:36 by julcalde         ###   ########.fr       */
+/*   Updated: 2025/09/27 15:55:11 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <cstdlib>	// For std::strtod, std::strtol and std::strtof
 #include <cctype>	// For std::isdigit and std::isprint
 
+/* HELPER FUNCTIONS TO IDENTIFY THE TYPE OF LITERAL */
 
 static bool isChar(const std::string& literal)
 {
@@ -59,10 +60,14 @@ static bool isDouble(const std::string& literal)
 	return (*end == '\0');
 }
 
+/* PRINTERS FOR EACH TYPE */
+
 static void printChar(double value)
 {
+	// char limits are from 0 to 127 in ASCII
 	if (std::isnan(value) || std::isinf(value) || value < std::numeric_limits<char>::min() || value > std::numeric_limits<char>::max())
 		std::cout << "char: impossible" << std::endl;
+	// Check if the char is printable using isprint from <cctype>
 	else if (!std::isprint(static_cast<char>(value)))
 		std::cout << "char: not printable" << std::endl;
 	else
@@ -71,6 +76,8 @@ static void printChar(double value)
 
 static void printInt(double value)
 {
+	// Check for NaN, infinity and out of int range
+	// int limits are from -2147483648 to 2147483647
 	if (std::isnan(value) || std::isinf(value) ||  value < std::numeric_limits<int>::min() || value > std::numeric_limits<int>::max())
 		std::cout << "int: impossible" << std::endl;
 	else
@@ -79,11 +86,14 @@ static void printInt(double value)
 
 static void printFloat(double value, bool isFloatLiteral)
 {
+	// Use std::isnan and std::isinf to check for special float values
 	if (std::isnan(value))
 		std::cout << "float: nanf" << std::endl;
 	else if (std::isinf(value))
 		std::cout << "float: " << (value > 0 ? "+inff" : "-inff") << std::endl;
+	// Check if the float is an integer value to decide precision
 	else
+	// boolean isFloatLiteral is set to true eitherway if the original literal was a float
 		std::cout << "float: " << std::fixed << std::setprecision(isFloatLiteral ? 1 : 1) << static_cast<float>(value) << "f" << std::endl;
 }
 
@@ -94,5 +104,51 @@ static void printDouble(double value)
 	else if (std::isinf(value))
 		std::cout << "double: " << (value > 0 ? "+inff" : "-inff") << std::endl;
 	else
+	// Check if the double is an integer value to decide precision
 		std::cout << "double: " << std::fixed << std::setprecision(1) << value << std::endl;
+}
+
+/* MAIN CONVERSION FUNCTION */
+
+void ScalarConversion::convert(const std::string& literal)
+{
+	double value = 0.0;
+	bool isFloatLiteral = false;
+
+	if (isChar(literal))
+		value = static_cast<double>(literal[0]);
+	else if (isInt(literal))
+		value = static_cast<double>(std::atoi(literal.c_str()));
+	else if (isFloat(literal))
+	{
+		isFloatLiteral = true;
+		if (literal == "nanf")
+			value = std::numeric_limits<double>::quiet_NaN();
+		else if (literal == "-inff")
+			value = -std::numeric_limits<double>::infinity();
+		else if (literal == "+inff")
+			value = std::numeric_limits<double>::infinity();
+		else
+			value = std::atof(literal.c_str());
+	}
+	else if (isDouble(literal))
+	{	
+		if (literal == "nan")
+			value = std::numeric_limits<double>::quiet_NaN();
+		else if (literal == "-inf")
+			value = -std::numeric_limits<double>::infinity();
+		else if (literal == "+inf")
+			value = std::numeric_limits<double>::infinity();
+		else
+			value = std::atof(literal.c_str());
+	}
+	else
+		return (std::cout << "Invalid input" << std::endl, void());
+	
+	/* PRINT ALL TYPES */
+	
+	printChar(value);
+	printInt(value);
+	printFloat(value, isFloatLiteral);
+	printDouble(value);
 }
