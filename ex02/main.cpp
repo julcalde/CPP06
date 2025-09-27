@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:45:40 by julcalde          #+#    #+#             */
-/*   Updated: 2025/09/27 17:31:26 by julcalde         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:40:09 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 */
 int main(void)
 {
+		// Seed the random number generator once
+	std::srand(static_cast<unsigned int>(std::time(NULL)));
+
 	// randomly generate and identify multiple times to demonstrate functionality
 	Base *obj1 = generate();
 	std::cout << "Identifying using pointer: ";
