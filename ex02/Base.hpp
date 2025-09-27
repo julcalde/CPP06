@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:45:44 by julcalde          #+#    #+#             */
-/*   Updated: 2025/09/27 16:52:10 by julcalde         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:16:11 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 class Base
 {
 	public:
-		virtual ~Base();
+		virtual ~Base() {};
 };
 
 // Derived classes
