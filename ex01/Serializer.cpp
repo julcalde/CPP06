@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:08:35 by julcalde          #+#    #+#             */
-/*   Updated: 2025/09/27 16:38:08 by julcalde         ###   ########.fr       */
+/*   Updated: 2025/09/27 16:40:16 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
    pointers to Data objects. The serialize method converts a Data pointer
    into an unsigned integer representation (uintptr_t), and the deserialize method
    converts the unsigned integer back into a Data pointer.
+*/
+/* reinterpret_cast is used to perform the conversions, ensuring that the pointer
+   and integer types are treated correctly without changing the underlying bit pattern.
 */
 
 uintptr_t Serializer::serialize(Data *ptr)
