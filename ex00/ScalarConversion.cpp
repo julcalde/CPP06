@@ -6,17 +6,11 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:00:33 by julcalde          #+#    #+#             */
-/*   Updated: 2025/09/27 15:55:11 by julcalde         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:52:32 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConversion.hpp"
-#include <iostream>	// For std::cout, std::cerr, std::endl
-#include <iomanip>	// For std::setprecision and std::fixed
-#include <limits>	// For std::numeric_limits and std::isinf
-#include <cmath>	// For std::isnan, std::isinf and std::fabs
-#include <cstdlib>	// For std::strtod, std::strtol and std::strtof
-#include <cctype>	// For std::isdigit and std::isprint
 
 /* HELPER FUNCTIONS TO IDENTIFY THE TYPE OF LITERAL */
 
@@ -69,7 +63,7 @@ static void printChar(double value)
 		std::cout << "char: impossible" << std::endl;
 	// Check if the char is printable using isprint from <cctype>
 	else if (!std::isprint(static_cast<char>(value)))
-		std::cout << "char: not printable" << std::endl;
+		std::cout << "char: non displayable" << std::endl;
 	else
 		std::cout << "char: '" << static_cast<char>(value) << "'" << std::endl;
 }
