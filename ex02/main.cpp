@@ -6,12 +6,14 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:45:40 by julcalde          #+#    #+#             */
-/*   Updated: 2025/09/27 17:40:09 by julcalde         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:53:31 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Base.hpp"
 #include <iostream>
+#include <cstdlib> // for std::srand and std::rand
+#include <ctime> // for std::time
 
 /* In this main function we generate a random instance of one of the derived classes (A, B, or C)
    using the generate function. We then identify the type of the generated object
