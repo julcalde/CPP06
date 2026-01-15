@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:00:33 by julcalde          #+#    #+#             */
-/*   Updated: 2026/01/10 16:52:32 by julcalde         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:20:09 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void printDouble(double value)
 	if (std::isnan(value))
 		std::cout << "double: nan" << std::endl;
 	else if (std::isinf(value))
-		std::cout << "double: " << (value > 0 ? "+inff" : "-inff") << std::endl;
+		std::cout << "double: " << (value > 0 ? "+inf" : "-inf") << std::endl;
 	else
 	// Check if the double is an integer value to decide precision
 		std::cout << "double: " << std::fixed << std::setprecision(1) << value << std::endl;
