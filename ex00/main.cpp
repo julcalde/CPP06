@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:55:31 by julcalde          #+#    #+#             */
-/*   Updated: 2025/09/27 15:57:40 by julcalde         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:59:32 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		std::cout << "Usage: ./scalarconverter <literal>" << std::endl;
+		std::cerr << "Usage: " << argv[0] << " <literal>" << std::endl;
 		return (1);
 	}
 	ScalarConversion::convert(argv[1]);

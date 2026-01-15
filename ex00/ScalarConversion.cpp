@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:00:33 by julcalde          #+#    #+#             */
-/*   Updated: 2026/01/15 14:20:09 by julcalde         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:54:49 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ static bool isFloat(const std::string& literal)
 {
 	// Check for special float literals. -inff means negative infinity float
 	// +inff means positive infinity float, nanf means not a number float
-	if (literal == "-inff" || literal == "+inff" || literal == "nanf")
+	if (literal == "-inff" || literal == "+inff" || literal == "nanf" || literal == "-infF" || literal == "+infF" || literal == "nanF")
 		return (true);
 	// A valid float must end with 'f'
-	if (literal[literal.length() - 1] != 'f')
+	if (literal[literal.length() - 1] != 'f' && literal[literal.length() - 1] != 'F')
 		return (false);
 	// Use strtof to check if the string (excluding the last 'f') is a valid float
 	char *end;
 	std::strtof(literal.c_str(), &end);
-	return (*end == 'f' && *(end + 1) == '\0');
+	return ((*end == 'f' && *(end + 1) == '\0') || (*end == 'F' && *(end + 1) == '\0'));
 }
 
 static bool isDouble(const std::string& literal)
