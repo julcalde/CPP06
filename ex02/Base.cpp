@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:45:42 by julcalde          #+#    #+#             */
-/*   Updated: 2026/01/15 14:51:42 by julcalde         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:00:58 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ void identify(Base *p)
 		std::cout << "C" << std::endl;
 }
 
-/* Identify the type of the object referred to by p using dynamic_cast and handle exceptions.
+/* Identify the type of the object referred to by p using dynamic_cast.
 	This function tries to cast the reference to each derived class type.
 	If the cast is successful, it prints the corresponding class name.
-	If the cast fails, it catches the std::bad_cast exception and tries the next type.
-	If none of the casts are successful, it does nothing. But in practice, one of the casts should succeed.
+	If the cast fails, tries the next type.
+	If none of the casts are successful, it does nothing.
+	But in practice, one of the casts should succeed.
 */
 void identify(Base &p)
 {
