@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:00:33 by julcalde          #+#    #+#             */
-/*   Updated: 2026/01/16 16:16:49 by julcalde         ###   ########.fr       */
+/*   Updated: 2026/01/16 18:07:09 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,14 @@ void ScalarConversion::convert(const std::string& literal)
 		printInt(d);
 		printFloat(d, uppercase);
 		printDouble(d);
+		return ;
+	}
+	else
+	{
+		std::cout << "char:	impossible" << std::endl;
+		std::cout << "int:	impossible" << std::endl;
+		std::cout << "float:	impossible" << std::endl;
+		std::cout << "double:	impossible" << std::endl;
 		return ;
 	}
 }
