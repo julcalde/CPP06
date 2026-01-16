@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 16:45:42 by julcalde          #+#    #+#             */
-/*   Updated: 2026/01/15 15:00:58 by julcalde         ###   ########.fr       */
+/*   Updated: 2026/01/16 17:48:12 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,26 @@ void identify(Base *p)
 */
 void identify(Base &p)
 {
-	if (dynamic_cast<A*>(&p))
+	try
+	{
+		(void)dynamic_cast<A&>(p);
 		std::cout << "A" << std::endl;
-	else if (dynamic_cast<B*>(&p))
-		std::cout << "B" << std::endl;
-	else if (dynamic_cast<C*>(&p))
-		std::cout << "C" << std::endl;
+	}
+	catch (std::bad_cast&)
+	{
+		try
+		{
+			(void)dynamic_cast<B&>(p);
+			std::cout << "B" << std::endl;
+		}
+		catch (std::bad_cast&)
+		{
+			try
+			{
+				(void)dynamic_cast<C&>(p);
+				std::cout << "C" << std::endl;
+			}
+			catch (std::bad_cast&) {}
+		}
+	}
 }
