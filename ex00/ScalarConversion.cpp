@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:00:33 by julcalde          #+#    #+#             */
-/*   Updated: 2026/01/15 16:54:49 by julcalde         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:56:31 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static bool isInt(const std::string& literal)
 {
 	// Use strtol to check if the entire string is a valid integer
 	char *end;
-	std::strtol(literal.c_str(), &end, 10);
+	long val = std::strtol(literal.c_str(), &end, 10);
 	// Ensure that the entire string was consumed and it's not "-0"
-	return (*end == '\0' && literal != "-0");
+	return (*end == '\0' && literal != "-0" && val >= std::numeric_limits<int>::min() && val <= std::numeric_limits<int>::max());
 }
 
 static bool isFloat(const std::string& literal)
@@ -36,12 +36,13 @@ static bool isFloat(const std::string& literal)
 	if (literal == "-inff" || literal == "+inff" || literal == "nanf" || literal == "-infF" || literal == "+infF" || literal == "nanF")
 		return (true);
 	// A valid float must end with 'f'
-	if (literal[literal.length() - 1] != 'f' && literal[literal.length() - 1] != 'F')
+	char suffix = literal[literal.length() - 1];
+	if (suffix != 'f' && suffix != 'F')
 		return (false);
 	// Use strtof to check if the string (excluding the last 'f') is a valid float
 	char *end;
 	std::strtof(literal.c_str(), &end);
-	return ((*end == 'f' && *(end + 1) == '\0') || (*end == 'F' && *(end + 1) == '\0'));
+	return ((*end == 'f' || *end == 'F') && *(end + 1) == '\0');
 }
 
 static bool isDouble(const std::string& literal)
@@ -78,28 +79,28 @@ static void printInt(double value)
 		std::cout << "int: " << static_cast<int>(value) << std::endl;
 }
 
-static void printFloat(double value, bool isFloatLiteral)
+static void printFloat(double value, bool uppercase, int precision)
 {
-	// Use std::isnan and std::isinf to check for special float values
+	std::string fsuffix = uppercase ? "F" : "f";
+	std::cout << "float: ";
 	if (std::isnan(value))
-		std::cout << "float: nanf" << std::endl;
+		std::cout << "nan" << fsuffix << std::endl;
 	else if (std::isinf(value))
-		std::cout << "float: " << (value > 0 ? "+inff" : "-inff") << std::endl;
-	// Check if the float is an integer value to decide precision
+		std::cout << (value > 0 ? "+inf" : "-inf") << fsuffix << std::endl;
 	else
-	// boolean isFloatLiteral is set to true eitherway if the original literal was a float
-		std::cout << "float: " << std::fixed << std::setprecision(isFloatLiteral ? 1 : 1) << static_cast<float>(value) << "f" << std::endl;
+		std::cout << std::fixed << std::setprecision(precision) << static_cast<float>(value) << fsuffix << std::endl;
+
 }
 
-static void printDouble(double value)
+static void printDouble(double value, int precision)
 {
+	std::cout << "double: ";
 	if (std::isnan(value))
-		std::cout << "double: nan" << std::endl;
+		std::cout << "nan" << std::endl;
 	else if (std::isinf(value))
-		std::cout << "double: " << (value > 0 ? "+inf" : "-inf") << std::endl;
+		std::cout << (value > 0 ? "+inf" : "-inf") << std::endl;
 	else
-	// Check if the double is an integer value to decide precision
-		std::cout << "double: " << std::fixed << std::setprecision(1) << value << std::endl;
+		std::cout << std::fixed << std::setprecision(precision) << value << std::endl;
 }
 
 /* MAIN CONVERSION FUNCTION */
@@ -108,41 +109,43 @@ void ScalarConversion::convert(const std::string& literal)
 {
 	double value = 0.0;
 	bool isFloatLiteral = false;
-
+	bool uppercase = false;
+	int precision = 1;
+	
+/* DETERMINE THE TYPE OF LITERAL AND CONVERT TO DOUBLE */
 	if (isChar(literal))
 		value = static_cast<double>(literal[0]);
 	else if (isInt(literal))
-		value = static_cast<double>(std::atoi(literal.c_str()));
+		value = std::strtod(literal.c_str(), NULL);
 	else if (isFloat(literal))
 	{
 		isFloatLiteral = true;
-		if (literal == "nanf")
-			value = std::numeric_limits<double>::quiet_NaN();
-		else if (literal == "-inff")
-			value = -std::numeric_limits<double>::infinity();
-		else if (literal == "+inff")
-			value = std::numeric_limits<double>::infinity();
-		else
-			value = std::atof(literal.c_str());
+		uppercase = (literal[literal.length() -1] == 'F');
+		value = std::strtod(literal.c_str(), NULL);
 	}
 	else if (isDouble(literal))
-	{	
-		if (literal == "nan")
-			value = std::numeric_limits<double>::quiet_NaN();
-		else if (literal == "-inf")
-			value = -std::numeric_limits<double>::infinity();
-		else if (literal == "+inf")
-			value = std::numeric_limits<double>::infinity();
-		else
-			value = std::atof(literal.c_str());
-	}
+		value = std::strtod(literal.c_str(), NULL);
 	else
 		return (std::cout << "Invalid input" << std::endl, void());
+	
+	/* DETERMINE PRECISION */
+	bool is_pseudo = std::isnan(value) || std::isinf(value);
+	if (!is_pseudo)
+	{
+		std::string num_str = literal;
+		if (isFloatLiteral)
+			num_str = literal.substr(0, literal.length() - 1); // Remove 'f' or 'F'
+		size_t dot_pos = num_str.find('.'); // Find decimal point
+		if (dot_pos != std::string::npos) // If there's a decimal point
+			precision = num_str.length() - dot_pos - 1; // Count digits after decimal
+		if (precision == 0) // If no digits after decimal, set precision to 1
+			precision = 1;
+	}
 	
 	/* PRINT ALL TYPES */
 	
 	printChar(value);
 	printInt(value);
-	printFloat(value, isFloatLiteral);
-	printDouble(value);
+	printFloat(value, uppercase, precision);
+	printDouble(value, precision);
 }
