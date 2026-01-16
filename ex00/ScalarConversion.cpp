@@ -6,7 +6,7 @@
 /*   By: julcalde <julcalde@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:00:33 by julcalde          #+#    #+#             */
-/*   Updated: 2026/01/16 18:07:09 by julcalde         ###   ########.fr       */
+/*   Updated: 2026/01/16 18:24:41 by julcalde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static bool isChar(const std::string& literal)
 
 static bool isInt(const std::string& literal)
 {
+	// Reject hexadecimal literals
+	if (literal.find("0x") != std::string::npos || literal.find("0X") != std::string::npos)
+		return (false);
 	// Use strtol to check if the entire string is a valid integer
 	char *end;
 	// strtol handles optional + or - signs, so we don't need to check them manually
@@ -36,6 +39,9 @@ static bool isFloat(const std::string& literal)
 	// +inff means positive infinity float, nanf means not a number float
 	if (literal == "-inff" || literal == "+inff" || literal == "nanf" || literal == "-infF" || literal == "+infF" || literal == "nanF")
 		return (true);
+	// Reject hexadecimal literals
+	if (literal.find("0x") != std::string::npos || literal.find("0X") != std::string::npos)
+		return (false);
 	// A valid float must end with 'f' or 'F'
 	if (literal.empty() || (literal.back() != 'f' && literal.back() != 'F'))
 		return (false);
@@ -50,6 +56,9 @@ static bool isDouble(const std::string& literal)
 	// Same as float but without 'f' at the end and strtod instead of strtof
 	if (literal == "-inf" || literal == "+inf" || literal == "nan")
 		return (true);
+	// Reject hexadecimal literals
+	if (literal.find("0x") != std::string::npos || literal.find("0X") != std::string::npos)
+		return (false);
 	// Use strtod to check if the entire string is a valid double
 	char *end;
 	std::strtod(literal.c_str(), &end);
@@ -65,7 +74,7 @@ static void printChar(double value)
 	if (std::isnan(value) || std::isinf(value) || value < std::numeric_limits<char>::min() || value > std::numeric_limits<char>::max())
 		std::cout << "impossible" <<  std::endl;
 	else if (!std::isprint(static_cast<unsigned char>(value)))
-		std::cout << "non displayablle" << std::endl;
+		std::cout << "non displayable" << std::endl;
 	else
 		std::cout << "'" << static_cast<char>(value) << "'" << std::endl;
 }
@@ -109,8 +118,8 @@ void ScalarConversion::convert(const std::string& literal)
 {
 	if (literal.empty())
 	{
-		std::cout << "char:		impossible" << std::endl;
-		std::cout << "int:		impossible" << std::endl;
+		std::cout << "char:	impossible" << std::endl;
+		std::cout << "int:	impossible" << std::endl;
 		std::cout << "float:	impossible" << std::endl;
 		std::cout << "double:	impossible" << std::endl;
 		return ;
